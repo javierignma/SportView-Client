@@ -7,7 +7,7 @@ export const environment = {
 };
 
 export const api = {
-  backend: 'localhost:5000/api/v1/'
+  backend: 'http://localhost:5000/api/v1/'
 }
 
 export const routes = {
