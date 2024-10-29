@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { api, routes } from 'src/environments/environment';
 import { LoginCredentials, User } from '../models/users.models';
-import { Observable, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +41,11 @@ export class UserService {
     );
   }
 
-  verifyToken() {
+  verifyToken(): Observable<boolean> {
     const headers = this.headers;
-    return this.http.get(this.apiUsersRoute+'verify-token/', { headers })
+    return this.http.get(this.apiUsersRoute+'verify-token/', { headers }).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    )
   }
 }
