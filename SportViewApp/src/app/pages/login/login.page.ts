@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { map } from 'rxjs';
 import { LoginCredentials } from 'src/app/models/users.models';
 import { UserService } from 'src/app/services/user.service';
 
@@ -22,14 +23,21 @@ export class LoginPage implements OnInit {
   constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
+    console.log("[login page - ngOnInit] Validating token...");
+    this.userService.verifyToken().subscribe(
+      (isValid) => {
+        console.log("[login page - ngOnInit] token is valid: "+isValid);
+        if (isValid) this.router.navigate(['/home']);
+      }
+    )
   }
 
   login() {
-    // implement login validation
     this.userService.login(this.loginCredentials).subscribe(
       (data) => {
         console.log('Login successful:', data);
         this.badCredentials = false;
+        this.router.navigate(['/home'])
       },
       (error) => {
         if (error.status == 401) {
