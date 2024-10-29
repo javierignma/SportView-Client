@@ -6,6 +6,15 @@ export const environment = {
   production: false
 };
 
+export const api = {
+  backend: 'http://localhost:5000/api/v1/'
+}
+
+export const routes = {
+  users: 'users/',
+  students: 'students/'
+}
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

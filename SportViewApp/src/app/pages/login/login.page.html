@@ -1,0 +1,26 @@
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center">
+    <img [src]="sportViewLogo" alt="SportView Logo">
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <form>
+      <div>
+        <label>Correo electrónico</label>
+        <input type="email" [(ngModel)]="loginCredentials.email" name="email" placeholder="correo@mail.com">
+      </div>
+      <div>
+        <label>Contraseña</label>
+        <input type="password" [(ngModel)]="loginCredentials.password" name="password" placeholder="●●●●●●●●">
+      </div>
+
+      <div class="bad-credentials" *ngIf="badCredentials">
+        Correo electrónico y/o contraseña incorrectos.
+      </div>
+      
+      <button (click)="login()">Ingresar</button>
+
+      <a (click)="goToResetPassword()">Recuperar contraseña</a>
+      <a (click)="goToSignUp()">Crear cuenta</a>
+    </form>
+  </ion-row>
+</ion-content>
