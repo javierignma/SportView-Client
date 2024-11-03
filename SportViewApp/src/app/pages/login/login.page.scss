@@ -1,5 +1,5 @@
 ion-content {
-    --background: #343B48;
+    --background: #2A2D3E;
 }
 
 img {
@@ -18,7 +18,8 @@ form {
     justify-content: space-between;
     
     div {
-        width: 100%;
+        width: 83%;
+        max-width: 400px;
         display: flex;
         flex-direction: column;
 
@@ -29,18 +30,19 @@ form {
         }
 
         input {
-            background-color: #D9D9D9;
-            height: 2em;
+            background-color: rgba(255, 255, 255, 0.1);;
+            height: 2.3em;
+            color: #D9D9D9;
+            padding: 10px;
+            border: none;
             border-radius: 5px;
-            border: solid 1px black;
-            color: black;
-            padding: 0 10px;
         }
     }
 
     button {
-        background-color: #33C99C;
+        background-color: #2ECC71;
         width: 50%;
+        max-width: 200px;
         height: 3em;
         border-radius: 5px;
     }
