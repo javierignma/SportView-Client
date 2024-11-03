@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SportView - Crear cuenta</title>
+    <link rel="stylesheet" href="register.page.scss">
+</head>
+<body>
+    <div class="container">
+        <img src="/api/placeholder/120/120" alt="SportView Logo" class="logo">
+        
+        <form>
+            <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" required>
+            </div>
+
+            <div class="form-group">
+                <label>Apellidos</label>
+                <input type="text" required>
+            </div>
+
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <input type="email" [(ngModel)]="registerCredentials.email" name="email" placeholder="correo@mail.com">
+            </div>
+
+            <div class="form-group">
+                <label>Confirmar correo</label>
+                <input type="email" [(ngModel)]="registerCredentials.email" name="email" placeholder="correo@mail.com">
+            </div>
+
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" [(ngModel)]="registerCredentials.password" name="password" placeholder="●●●●●●●●">
+            </div>
+
+            <div class="form-group">
+                <label>Confirmar contraseña</label>
+                <input type="password" [(ngModel)]="registerCredentials.password" name="password" placeholder="●●●●●●●●">
+            </div>
+
+            <button type="submit" class="register-btn">Crear cuenta</button>
+        </form>
+        <a (click)="goLogin()">¿Ya tienes cuenta? Inicia sesión</a>
+
+    </div>
+</body>
+</html>
