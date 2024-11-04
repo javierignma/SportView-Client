@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { api, routes } from 'src/environments/environment';
 import { LoginCredentials, RegisterCredentials, User } from '../models/users.models';
 import { catchError, map, Observable, of, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class UserService {
 
   headers: HttpHeaders;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private router: Router) { 
     this.headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
     });
@@ -24,6 +25,10 @@ export class UserService {
     this.headers = new HttpHeaders({
       'Authorization': 'Bearer ' + token
     });
+  }
+
+  removeToken() {
+    localStorage.removeItem('auth_token');
   }
 
   createNewUser(user: RegisterCredentials): Observable<User> {
@@ -75,6 +80,12 @@ export class UserService {
         this.saveUser(response);
       })
     );
+  }
+
+  logout() {
+    this.removeCurrentUser();
+    this.removeToken();
+    this.router.navigate(['/login']);
   }
 
   verifyToken(): Observable<any> {
