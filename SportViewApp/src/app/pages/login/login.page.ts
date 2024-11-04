@@ -37,6 +37,8 @@ export class LoginPage implements OnInit {
       (data) => {
         console.log('Login successful:', data);
         this.badCredentials = false;
+        this.loginCredentials.email = '';
+        this.loginCredentials.password = '';
         this.router.navigate(['/home'])
       },
       (error) => {
