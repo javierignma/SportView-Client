@@ -1,77 +1,60 @@
-/* Global styles */
-body {
-    background-color: #2A2D3E;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    color: white;
+ion-content {
+    --background: #2A2D3E;
 }
 
-/* Container styles */
-.container {
-    width: 300px;
-    text-align: center;
-    padding: 20px;
-}
-
-/* Logo styles */
-.logo {
-    width: 120px;
-    height: 120px;
-    margin-bottom: 30px;
-}
-
-/* Form group styles */
-.form-group {
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-}
-
-.form-group input {
-    width: 100%;
+img {
+    height: 40vh;
     padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    box-sizing: border-box;
 }
 
-/* Button styles */
-.register-btn {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #2ECC71;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 20px;
+form {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    width: 90%;
+    min-height: 480px;
+    height: 50vh;
+    justify-content: space-between;
+    
+    div {
+        width: 83%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+
+        label {
+            display: flex;
+            align-items: start;
+            margin-bottom: 8px;
+        }
+
+        input {
+            background-color: rgba(255, 255, 255, 0.1);;
+            height: 2.3em;
+            color: #D9D9D9;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+    }
+
+    button {
+        margin: 1em 0;
+        background-color: #2ECC71;
+        width: 50%;
+        max-width: 200px;
+        height: 3em;
+        border-radius: 5px;
+    }
+
+    a {
+        color: #D9D9D9;
+        text-decoration: underline;
+        margin-bottom: 2em;
+    }
 }
 
-.register-btn:hover {
-    background-color: #27AE60;
-}
-
-/* Link styles */
-.login-link {
-    display: block;
-    margin-top: 15px;
-    color: #fff;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.login-link:hover {
-    text-decoration: underline;
+.bad-credentials {
+    color: #ff0033;
 }
