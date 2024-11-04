@@ -1,0 +1,35 @@
+<ion-content [fullscreen]="true">
+    <ion-row class="ion-justify-content-center">
+        <img [src]="sportViewLogo" alt="SportView Logo">
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+        <form>
+            <div>
+                <label>Nombre</label>
+                <input type="text" [(ngModel)]="registerCredentials.first_name" name="firstName" required>
+            </div>
+            <div>
+                <label>Apellidos</label>
+                <input type="text" [(ngModel)]="registerCredentials.last_name" name="lastName" required>
+            </div>
+            <div>
+                <label>Correo electrónico</label>
+                <input type="email" [(ngModel)]="registerCredentials.email" name="email" placeholder="correo@mail.com">
+            </div>
+            <div>
+                <label>Contraseña</label>
+                <input type="password" (input)="matchPasswords()" [(ngModel)]="registerCredentials.password" name="password" placeholder="●●●●●●●●">
+            </div>
+            <div>
+                <label>Confirmar contraseña</label>
+                <input type="password" (input)="matchPasswords()" [(ngModel)]="passwordConfirmation" name="passwordConfirmation" placeholder="●●●●●●●●">
+            </div>
+            <div class="bad-credentials">
+                <li *ngIf="passwordDoesNotMatch">Las contraseñas no coinciden.</li>
+                <li *ngIf="emailInUse">El correo electrónico ya está en uso.</li>
+            </div>
+            <button type="submit" class="register-btn" (click)="register()">Crear cuenta</button>
+            <a (click)="goLogin()">¿Ya tienes cuenta? Inicia sesión</a>
+        </form>
+    </ion-row>
+</ion-content>

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { api, routes } from 'src/environments/environment';
-import { LoginCredentials, User } from '../models/users.models';
+import { LoginCredentials, RegisterCredentials, User } from '../models/users.models';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
@@ -28,7 +28,7 @@ export class UserService {
     });
   }
 
-  createNewUser(user: User): Observable<User> {
+  createNewUser(user: RegisterCredentials): Observable<User> {
     return this.http.post<User>(this.apiUsersRoute, user);
   }
 
