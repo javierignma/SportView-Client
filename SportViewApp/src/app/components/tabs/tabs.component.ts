@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { addIcons } from 'ionicons';
-import { home, document, person, trendingUp } from 'ionicons/icons';
+import { home, document, logOutOutline, peopleOutline } from 'ionicons/icons';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-tabs',
@@ -10,25 +12,25 @@ import { home, document, person, trendingUp } from 'ionicons/icons';
 })
 export class TabsComponent  implements OnInit {
 
-  constructor() {
-    addIcons({ home, document, person, trendingUp });
+  constructor(private router: Router, private userService: UserService) {
+    addIcons({ home, document, logOutOutline, peopleOutline });
   }
 
   ngOnInit() {}
 
   goToHome() {
-
+    this.router.navigate(['/home']);
   }
 
   goToAttendance() {
     
   }
 
-  goToProgress() {
-    
+  goToStudents() {
+    this.router.navigate(['/students']);
   }
 
-  goToProfile() {
-    
+  logout() {
+    this.userService.logout();
   }
 }
