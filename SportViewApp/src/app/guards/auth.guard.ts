@@ -10,13 +10,19 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   return userService.verifyToken().pipe(
     map(isValid => {
-      if (isValid) return true;
+      if (isValid) {
+        console.log(isValid);
+        userService.getUserByEmail(isValid.email);
+        return true;
+      }
       else {
+        userService.removeCurrentUser();
         router.navigate(['/login']);
         return false
       }
     }),
     catchError(() => {
+      userService.removeCurrentUser();
       router.navigate(['/login']);
       return of(false);
     })
