@@ -44,3 +44,177 @@ ion-tab-button {
     --background: #2A2D3E;
     color: #D9D9D9;
 }
+
+ion-modal#add-student-modal {
+    --width: fit-content;
+    --min-width: 250px;
+    --height: 650px;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+
+ion-modal#add-student-modal h1 {
+    margin: 20px;
+}
+
+  
+ion-modal#add-student-modal .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #2A2D3E;
+    height: 100%;
+
+    form {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        flex-direction: column;
+        width: 90%;
+        min-height: 18em;
+        height: 550px;
+        justify-content: space-between;
+        
+        div {
+            width: 83%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+    
+            label {
+                display: flex;
+                align-items: start;
+                margin-bottom: 8px;
+            }
+    
+            input {
+                background-color: rgba(255, 255, 255, 0.1);
+                height: 2.3em;
+                color: #D9D9D9;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+            }
+
+            select {
+                background-color: rgba(255, 255, 255, 0.1);
+                height: 2.3em;
+                color: #D9D9D9;
+                padding: 5px;
+                border: none;
+                border-radius: 5px;
+            }
+
+            option {
+                background: #2A2D3E;
+                color: #D9D9D9;
+                border: none;
+            }
+        }
+    
+        button {
+            background-color: #2ECC71;
+            width: 50%;
+            max-width: 200px;
+            height: 3em;
+            border-radius: 5px;
+        }
+    
+        a {
+            color: #D9D9D9;
+            text-decoration: underline;
+        }
+
+        .bad-credentials {
+            color: #ff0033;
+        }
+    }
+    
+}
+
+ion-modal#edit-student-modal {
+    --width: fit-content;
+    --min-width: 250px;
+    --height: 650px;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+
+ion-modal#edit-student-modal h1 {
+    margin: 20px;
+}
+
+  
+ion-modal#edit-student-modal .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #2A2D3E;
+    height: 100%;
+
+    form {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        flex-direction: column;
+        width: 90%;
+        min-height: 18em;
+        height: 550px;
+        justify-content: space-between;
+        
+        div {
+            width: 83%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+    
+            label {
+                display: flex;
+                align-items: start;
+                margin-bottom: 8px;
+            }
+    
+            input {
+                background-color: rgba(255, 255, 255, 0.1);
+                height: 2.3em;
+                color: #D9D9D9;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+            }
+
+            select {
+                background-color: rgba(255, 255, 255, 0.1);
+                height: 2.3em;
+                color: #D9D9D9;
+                padding: 5px;
+                border: none;
+                border-radius: 5px;
+            }
+
+            option {
+                background: #2A2D3E;
+                color: #D9D9D9;
+                border: none;
+            }
+        }
+    
+        button {
+            background-color: chocolate;
+            width: 50%;
+            max-width: 200px;
+            height: 3em;
+            border-radius: 5px;
+        }
+    
+        a {
+            color: #D9D9D9;
+            text-decoration: underline;
+        }
+
+        .bad-credentials {
+            color: #ff0033;
+        }
+    }
+    
+}

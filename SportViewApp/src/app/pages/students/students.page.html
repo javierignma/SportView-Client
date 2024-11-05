@@ -2,15 +2,141 @@
   <ion-toolbar>
     <ion-row id="header-row">
       <img [src]="sportViewLogo" id="top-logo" alt="SportView Logo">
-      <ion-title>
+      <ion-title class="ion-justify-content-center">
         Alumnos
       </ion-title>
     </ion-row>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollY]="true">
+  <ion-row class="ion-justify-content-center">
+    <button id="add-student">
+      + Añadir alumno
+    </button>
 
+    
+  </ion-row>
+  <ion-row *ngIf="students.length == 0" class="ion-justify-content-center">
+    No has agregado ningun estudiante.
+  </ion-row>
+  <ion-row *ngFor="let student of students" class="ion-justify-content-center">
+    <div class="student-card">
+      <div class="student-info-container">
+        <h2>{{ student.name }}</h2>
+        <h3>Sexo: {{ student.sex == 'F' ? 'Mujer' : 'Hombre' }}</h3>
+        <h3>Altura: {{ student.height }} cm</h3>
+        <h3>Peso: {{ student.weight }} kg</h3>
+        <h3>Edad: {{ student.age }} años</h3>
+      </div>
+      <div class="buttons-container">
+        <button (click)="selectStudentToEdit(student)" id="edit-student" class="edit-button">
+          Editar
+        </button>
+
+        <button (click)="deleteStudent(student.id)" class="delete-button">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </ion-row>
+
+
+  <ion-modal id="edit-student-modal" #editStudentModal trigger="edit-student">
+    <ng-template>
+      <div class="wrapper">
+        <h1>Editar alumno</h1>
+
+        <form>
+          <div>
+            <label>Nombre *</label>
+            <input type="text" [(ngModel)]="updatingStudent!.name" name="name">
+          </div>
+          <div>
+            <label>Correo electrónico *</label>
+            <input type="email" [(ngModel)]="updatingStudent!.email" name="email" placeholder="correo@mail.com">
+          </div>
+          <div>
+            <label>Sexo *</label>
+            <select [(ngModel)]="updatingStudent!.sex" name="sex">
+              <option value="F">Mujer</option>
+              <option value="M">Hombre</option>
+            </select>
+          </div>
+          <div>
+            <label>RUT *</label>
+            <input type="text" [(ngModel)]="updatingStudent!.rut" name="rut" placeholder="12345678-9">
+          </div>
+          <div>
+            <label>Edad</label>
+            <input type="number" [(ngModel)]="updatingStudent!.age" name="age">
+          </div>
+          <div>
+            <label>Peso (kg)</label>
+            <input type="number" [(ngModel)]="updatingStudent!.weight" name="weight">
+          </div>
+          <div>
+            <label>Altura (cm)</label>
+            <input type="number" [(ngModel)]="updatingStudent!.height" name="height">
+          </div>
+
+          <div *ngIf="badForm" class="bad-credentials">
+            Debes rellenar todos los campos con *.
+          </div>
+
+          <button type="submit" (click)="updateStudent()">Guardar cambios</button>
+        </form>
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal id="add-student-modal" #modal trigger="add-student">
+    <ng-template>
+      <div class="wrapper">
+        <h1>Añadir alumno</h1>
+
+        <form>
+          <div>
+            <label>Nombre *</label>
+            <input type="text" [(ngModel)]="newStudent.name" name="name">
+          </div>
+          <div>
+            <label>Correo electrónico *</label>
+            <input type="email" [(ngModel)]="newStudent.email" name="email" placeholder="correo@mail.com">
+          </div>
+          <div>
+            <label>Sexo *</label>
+            <select [(ngModel)]="newStudent.sex" name="sex">
+              <option value="F">Mujer</option>
+              <option value="M">Hombre</option>
+            </select>
+          </div>
+          <div>
+            <label>RUT *</label>
+            <input type="text" [(ngModel)]="newStudent.rut" name="rut" placeholder="12345678-9">
+          </div>
+          <div>
+            <label>Edad</label>
+            <input type="number" [(ngModel)]="newStudent.age" name="age">
+          </div>
+          <div>
+            <label>Peso (kg)</label>
+            <input type="number" [(ngModel)]="newStudent.weight" name="weight">
+          </div>
+          <div>
+            <label>Altura (cm)</label>
+            <input type="number" [(ngModel)]="newStudent.height" name="height">
+          </div>
+
+          <div *ngIf="badForm" class="bad-credentials">
+            Debes rellenar todos los campos con *.
+          </div>
+
+          <button type="submit" (click)="addStudent()">Añadir</button>
+        </form>
+      </div>
+    </ng-template>
+  </ion-modal>
+  
 </ion-content>
-
 <app-tabs></app-tabs>
