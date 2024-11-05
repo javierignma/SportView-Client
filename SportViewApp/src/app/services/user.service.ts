@@ -29,6 +29,9 @@ export class UserService {
 
   removeToken() {
     localStorage.removeItem('auth_token');
+    this.headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
+    });
   }
 
   createNewUser(user: RegisterCredentials): Observable<User> {
@@ -56,10 +59,12 @@ export class UserService {
     )
   }
 
-  getCurrentUser(option: string): string {
+  getCurrentUser(option: string) {
     const userData = localStorage.getItem('user_data');
     const currentUser = userData ? JSON.parse(userData) : undefined;
     
+    console.log("[user.service - getCurrentUser] currentUser: "+userData);
+
     switch (option) {
       case 'first_name':
         return currentUser.first_name;
@@ -67,6 +72,8 @@ export class UserService {
         return currentUser.last_name;
       case 'full_name':
         return currentUser.first_name+' '+currentUser.last_name;
+      case 'id':
+        return currentUser.id;
       default:
         return currentUser.email;
     }
