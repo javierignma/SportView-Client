@@ -22,12 +22,14 @@ export class LoginPage implements OnInit {
 
   constructor(private router: Router, private userService: UserService) { }
 
-  ngOnInit() {
-    console.log("[login page - ngOnInit] Validating token...");
+  ngOnInit() {}
+
+  ionViewDidEnter() {
+    console.log("[login page - ionViewDidEnter] Validating token...");
     this.userService.verifyToken().subscribe(
       (isValid) => {
-        console.log("[login page - ngOnInit] token is valid: "+isValid);
-        if (isValid) this.router.navigate(['/home']);
+        console.log("[login page - ionViewDidEnter] token is valid: "+isValid.email);
+        if (isValid.email) this.router.navigate(['/home']);
       }
     )
   }
