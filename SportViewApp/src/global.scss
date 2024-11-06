@@ -114,10 +114,11 @@ ion-modal#add-student-modal .wrapper {
     
         button {
             background-color: #2ECC71;
-            width: 50%;
+            width: 55%;
             max-width: 200px;
             height: 3em;
-            border-radius: 5px;
+            font-size: 0.9em;
+            border-radius: 8px;
         }
     
         a {
@@ -200,11 +201,12 @@ ion-modal#edit-student-modal .wrapper {
         }
     
         button {
-            background-color: chocolate;
-            width: 50%;
+            background-color: #00A8E8;
+            width: 55%;
             max-width: 200px;
             height: 3em;
-            border-radius: 5px;
+            font-size: 0.9em;
+            border-radius: 8px;
         }
     
         a {

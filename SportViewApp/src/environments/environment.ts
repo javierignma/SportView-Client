@@ -7,7 +7,7 @@ export const environment = {
 };
 
 export const api = {
-  backend: 'http://localhost:5000/api/v1/'
+  backend: 'https://sportview-server-production.up.railway.app/api/v1/'
 }
 
 export const routes = {

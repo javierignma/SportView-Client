@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" [scrollY]="true">
-  <ion-row class="ion-justify-content-center">
+  <ion-row class="add-student-row ion-justify-content-center">
     <button id="add-student">
       + Añadir alumno
     </button>
@@ -31,11 +31,11 @@
       </div>
       <div class="buttons-container">
         <button (click)="selectStudentToEdit(student)" id="edit-student" class="edit-button">
-          Editar
+          🖉 Editar
         </button>
 
         <button (click)="deleteStudent(student.id)" class="delete-button">
-          Eliminar
+          🗑️ Eliminar
         </button>
       </div>
     </div>
