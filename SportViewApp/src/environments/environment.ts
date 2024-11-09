@@ -7,12 +7,13 @@ export const environment = {
 };
 
 export const api = {
-  backend: 'https://sportview-server-production.up.railway.app/api/v1/'
+  backend: 'http://localhost:5000/api/v1/'
 }
 
 export const routes = {
   users: 'users/',
-  students: 'students/'
+  students: 'students/',
+  attendance: 'attendance/',
 }
 
 /*
