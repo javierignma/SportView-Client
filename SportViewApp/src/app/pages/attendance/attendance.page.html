@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-row id="header-row">
+      <img [src]="sportViewLogo" id="top-logo" alt="SportView Logo">
+      <ion-title class="ion-justify-content-center">
+        Asistencia
+      </ion-title>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" [scrollY]="true">
+  <ion-row class="attendance-header">
+    <ion-row class="ion-align-items-center">
+      <button [ngClass]="{'active-button': !isOldestDate(), 'deactive-button': isOldestDate()}" class="arrow-button" (click)="prevDate()"> < </button>
+      <p>{{ formatDate(date) }}</p>
+      <button [ngClass]="{'active-button': !isToday, 'deactive-button': isToday}" class="arrow-button" (click)="nextDate()"> > </button>
+    </ion-row>
+    <select class="filter-select">
+      <option value="all">Todos</option>
+      <option value="present">Presentes</option>
+      <option value="absent">Ausentes</option>
+    </select>
+  </ion-row>
+  
+  <ion-row class="ion-justify-content-center">
+    <div class="field-names">
+      <p>Nombre</p>
+      <p>Presente</p>
+    </div>
+  </ion-row>
+
+  <div *ngIf="!students && !studentsRegistered">
+    No tienes ningún alumno.
+  </div>
+
+  <div *ngIf="studentsRegistered.length > 0">
+    <ion-row *ngFor="let studentRegistered of studentsRegistered" class="ion-justify-content-center">
+      <div class="student-card">
+        <div class="student-info-container">
+          <h2>{{ studentRegistered.student_name }}</h2>
+        </div>
+        <div class="checklist-item">
+          <input type="checkbox" name="present-checkbox" [(ngModel)]="studentRegistered.present">
+        </div>
+      </div>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <div class="add-student student-card">
+        <div>
+          + Agregar alumno
+        </div>
+      </div>
+    </ion-row>
+  </div>
+
+  <div *ngIf="students.length > 0">
+    <ion-row *ngFor="let student of students" class="ion-justify-content-center">
+      <div class="student-card">
+        <div class="student-info-container">
+          <h2>{{ student.student_name }}</h2>
+        </div>
+        <div class="checklist-item">
+          <input type="checkbox" name="present-checkbox" [(ngModel)]="student.present">
+        </div>
+      </div>
+    </ion-row>
+  </div>
+
+  <ion-row class="create-attendance-row ion-justify-content-center">
+    <button (click)="createAttendances()" [ngClass]="{'active-button': !uploadingData, 'deactive-button': uploadingData}" *ngIf="students.length > 0" id="create-attendance">
+      + Crear lista de asistencia
+    </button>
+
+    <button (click)="updateAttendances()" [ngClass]="{'active-button': !uploadingData, 'deactive-button': uploadingData}" *ngIf="studentsRegistered.length > 0" id="modify-attendance">
+      🖉 Actualizar lista de asistencia
+    </button>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <div *ngIf="dataUpdated">
+      Asistencia actualizada correctamente.
+    </div>
+  </ion-row>
+
+</ion-content>
+<app-tabs></app-tabs>
