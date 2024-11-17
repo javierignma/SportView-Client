@@ -34,6 +34,11 @@ const routes: Routes = [
     path: 'attendance/:date',
     loadChildren: () => import('./pages/attendance/attendance.module').then( m => m.AttendancePageModule)
   },
+  {
+    path: 'student-profile/:id/:date',
+    loadChildren: () => import('./pages/student-profile/student-profile.module').then( m => m.StudentProfilePageModule)
+  },
+
 
 
 

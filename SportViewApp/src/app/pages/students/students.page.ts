@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Route, Router } from '@angular/router';
 import { IonModal, ModalController } from '@ionic/angular';
 import { NewStudent, Student } from 'src/app/models/students.models';
 import { StudentService } from 'src/app/services/student.service';
@@ -27,6 +28,7 @@ export class StudentsPage implements OnInit {
   @ViewChild(IonModal) editStudentModal!: IonModal;
 
   constructor(
+    private router: Router,
     private userService: UserService, 
     private studentService: StudentService, 
     private modalController: ModalController,
@@ -84,6 +86,13 @@ export class StudentsPage implements OnInit {
     }
 
     this.editStudentModal.present();
+  }
+
+  goToStudentProfile(studentId: number) {
+    // student-profile/:id/:date
+    const todayDate = new Date().toISOString().split('T')[0];
+    this.router.navigate(['/student-profile/'+studentId+'/'+todayDate]);
+
   }
 
   updateStudent() {
