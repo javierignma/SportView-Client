@@ -40,7 +40,7 @@ export class AttendanceService {
 
   getAttendances(date: string): Observable<Attendance[]> {
     const headers = this.headers;
-    return this.http.get<Attendance[]>(this.apiAttendanceRoute+this.userService.getCurrentUser('id')+'/'+date, { headers });
+    return this.http.get<Attendance[]>(this.apiAttendanceRoute+"all/"+this.userService.getCurrentUser('id')+'/'+date, { headers });
   }
   
   goTodayDate() {
@@ -65,7 +65,8 @@ export class AttendanceService {
   }
 
   getDates() {
-    this.http.get<string[]>(this.apiAttendanceRoute+'dates').subscribe(
+    const currentUser = this.userService.getCurrentUser('id');
+    this.http.get<string[]>(this.apiAttendanceRoute+'dates/'+currentUser).subscribe(
       data => {
         this.dates = data;
         const todayDate = new Date().toISOString().split('T')[0];
@@ -76,7 +77,13 @@ export class AttendanceService {
         console.log("[attendance.service - getDates] dates: ", this.dates);
         console.log("[attendance.service - getDates] currentIndex: ", this.currentDateIndex);
       },
-      error => console.log("[attendance.page - ngOnInit] An error has ocurred: ", error)
+      error => {
+        const todayDate = new Date().toISOString().split('T')[0];
+        this.dates = [todayDate];
+        this.currentDateIndex = 0;
+
+        console.log("[attendance.page - ngOnInit] An error has ocurred: ", error)
+      }
     )
   }
 }
