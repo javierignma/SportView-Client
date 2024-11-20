@@ -36,3 +36,9 @@ export interface NewStudentProgress {
     physique: number;
     combat_iq: number;
 }
+
+export interface StudentProgressAvg {
+    technique_avg: number;
+    physique_avg: number;
+    combat_iq_avg: number;
+}
