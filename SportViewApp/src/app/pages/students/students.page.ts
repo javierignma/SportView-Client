@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { IonModal, ModalController } from '@ionic/angular';
 import { NewStudent, Student } from 'src/app/models/students.models';
+import { StudentProgressService } from 'src/app/services/student-progress.service';
 import { StudentService } from 'src/app/services/student.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -30,7 +31,8 @@ export class StudentsPage implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService, 
-    private studentService: StudentService, 
+    private studentService: StudentService,
+    private studentProgressService: StudentProgressService,
     private modalController: ModalController,
   ) {
     this.newStudent = {
@@ -89,7 +91,7 @@ export class StudentsPage implements OnInit {
   }
 
   goToStudentProfile(studentId: number) {
-    // student-profile/:id/:date
+    this.studentProgressService.getDates(studentId);
     const todayDate = new Date().toISOString().split('T')[0];
     this.router.navigate(['/student-profile/'+studentId+'/'+todayDate]);
 
