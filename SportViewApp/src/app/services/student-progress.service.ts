@@ -4,6 +4,7 @@ import { api, routes } from 'src/environments/environment';
 import { UserService } from './user.service';
 import { NewStudentProgress, StudentProgress, StudentProgressAvg } from '../models/students.models';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class StudentProgressService {
   dates: string[] = [];
   currentDateIndex = 0;
 
-  constructor(private http: HttpClient, private userService: UserService) { 
+  constructor(private http: HttpClient, private userService: UserService, private route: Router) { 
     this.headers = new HttpHeaders({
       'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
     });
@@ -58,5 +59,29 @@ export class StudentProgressService {
         console.log("[student-progress.service - getDates] An error has ocurred: ", error)
       }
     )
+  }
+
+  goNextDate(student_id: number) {
+    console.log("[student-progress.service - goNextDate] index ", this.currentDateIndex, " going next date ->");
+    if (this.currentDateIndex == this.dates.length - 1) return;
+    this.currentDateIndex += 1;
+    console.log("[student-progress.service - goPrevDate] currentIndex now is:", this.currentDateIndex);
+    this.route.navigate(['/student-profile/'+student_id+'/'+this.dates[this.currentDateIndex]]);
+  }
+
+  goPrevDate(student_id: number) {
+    console.log("[student-progress.service - goPrevDate] index ", this.currentDateIndex, " going prev date <-");
+    if (this.currentDateIndex == 0) return;
+    this.currentDateIndex -= 1;
+    console.log("[student-progress.service - goPrevDate] currentIndex now is:", this.currentDateIndex);
+    this.route.navigate(['/student-profile/'+student_id+'/'+this.dates[this.currentDateIndex]]);
+  }
+
+  isOldestDate() {
+    return this.currentDateIndex == 0;
+  }
+
+  isToday() {
+    return this.currentDateIndex == this.dates.length - 1;
   }
 }
