@@ -21,8 +21,8 @@
     No has agregado ningun estudiante.
   </ion-row>
   <ion-row *ngFor="let student of students" class="ion-justify-content-center">
-    <div class="student-card" (click)="goToStudentProfile(student.id)">
-      <div class="student-info-container">
+    <div class="student-card">
+      <div class="student-info-container" (click)="goToStudentProfile(student.id)">
         <h2>{{ student.name }}</h2>
         <h3>Sexo: {{ student.sex == 'F' ? 'Mujer' : 'Hombre' }}</h3>
         <h3>Altura: {{ student.height }} cm</h3>
