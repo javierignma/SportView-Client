@@ -38,6 +38,13 @@ export class StudentProgressService {
     return this.http.post<StudentProgress>(this.apiStudentsRoute, studentProgress, { headers });
   }
 
+  updateStudentProgress(studentProgress: StudentProgress) {
+    const headers = this.headers;
+    const studentProgressId = studentProgress.id;
+
+    return this.http.put<StudentProgress>(this.apiStudentsRoute+studentProgressId, studentProgress, { headers });
+  }
+
   getDates(studentId: number) {
     const currentUser = this.userService.getCurrentUser('id');
     this.http.get<string[]>(this.apiStudentsRoute+'dates/'+currentUser+'/'+studentId).subscribe(
