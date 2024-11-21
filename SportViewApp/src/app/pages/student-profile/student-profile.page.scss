@@ -119,3 +119,22 @@ strong {
   margin: 10px auto;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+#edit-button {
+  background-color: #00A8E8;
+  width: 30%;
+  min-width: 120px;
+  max-width: 200px;
+  height: 3em;
+  border-radius: 5px;
+  margin: 10px auto;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.active-button {
+  opacity: 1;
+}
+
+.deactive-button {
+  opacity: 0.5;
+}

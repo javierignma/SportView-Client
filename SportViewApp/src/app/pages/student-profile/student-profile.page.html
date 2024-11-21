@@ -63,37 +63,55 @@
         <h3>{{ formatDate(date) }}</h3>
       </ion-row>
       <ion-row class="ion-justify-content-center">
-        <button class="arrow-button"> < </button>
-        <button class="arrow-button"> > </button>
+        <button [ngClass]="{'active-button': !isOldestDate(), 'deactive-button': isOldestDate()}" (click)="prevDate()" class="arrow-button"> < </button>
+        <button [ngClass]="{'active-button': !isToday(), 'deactive-button': isToday()}" (click)="nextDate()" class="arrow-button"> > </button>
       </ion-row>
-      <ion-row class="fill-width">
+      <ion-row *ngIf="progressExists()" class="fill-width">
         <div class="stats-container">
           <p>Técnica</p>
           <div class="progress-bar">
-            <div class="tecnique-progress" style="width: 70%;"></div>
+            <div class="tecnique-progress" [ngStyle]="{ width: selectedDateStudentStats?.technique!*10 + '%'}"></div>
           </div>
-          <p>7/10</p>
+          <p>{{ selectedDateStudentStats ? selectedDateStudentStats.technique : 0 }}/10</p>
         </div>
         <div class="stats-container">
           <p>Físico</p>
           <div class="progress-bar">
-            <div class="physique-progress" style="width: 50%;"></div>
+            <div class="physique-progress" [ngStyle]="{ width: selectedDateStudentStats?.physique!*10 + '%'}"></div>
           </div>
-          <p>5/10</p>
+          <p>{{ selectedDateStudentStats ? selectedDateStudentStats.physique : 0 }}/10</p>
         </div>
         <div class="stats-container">
           <p>IQ</p>
           <div class="progress-bar">
-            <div class="iq-progress" style="width: 90%;"></div>
+            <div class="iq-progress" [ngStyle]="{ width: selectedDateStudentStats?.combat_iq!*10 + '%'}"></div>
           </div>
-          <p>9/10</p>
+          <p>{{ selectedDateStudentStats ? selectedDateStudentStats.combat_iq : 0 }}/10</p>
+        </div>
+      </ion-row>
+      <ion-row *ngIf="!progressExists()" class="fill-width">
+        <div class="stats-container">
+          <p>Técnica</p>
+          <div class="progress-bar">
+            <input (input)="checkTechniqueNumber()" [(ngModel)]="technique" type="number" name="techniqueProgress" placeholder="0 - 10">
+          </div>
+        </div>
+        <div class="stats-container">
+          <p>Físico</p>
+          <div class="progress-bar">
+            <input (input)="checkPhysiqueNumber()" [(ngModel)]="physique" type="number" name="physiqueProgress" placeholder="0 - 10">
+          </div>
+        </div>
+        <div class="stats-container">
+          <p>IQ</p>
+          <div class="progress-bar">
+            <input (input)="checkCombatIqNumber()" [(ngModel)]="combatIq" type="number" name="combatIqProgress" placeholder="0 - 10">
+          </div>
         </div>
       </ion-row>
       <ion-row class="ion-justify-content-center">
-        Total: 21/30
-      </ion-row>
-      <ion-row class="ion-justify-content-center">
-        <button id="add-button">Añadir registro</button>
+        <button *ngIf="!progressExists()" id="add-button" (click)="addRegistry()">Añadir registro</button>
+        <button *ngIf="progressExists()" id="edit-button" (click)="modifyRegistry()">Modificar registro</button>
       </ion-row>
     </div>
   </ion-row>
