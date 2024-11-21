@@ -28,6 +28,8 @@ export class StudentProfilePage implements OnInit {
   physique: number | null = null;
   combatIq: number | null = null;
 
+  modifyMode: boolean = false;
+
   constructor(
     private studentService: StudentService,
     private studentProgressService: StudentProgressService,
@@ -158,7 +160,37 @@ export class StudentProfilePage implements OnInit {
   }
 
   modifyRegistry() {
+    this.modifyMode = true;
+  }
 
+  cancelModifyMode() {
+    this.modifyMode = false;
+
+    this.technique = null;
+    this.physique = null;
+    this.combatIq = null;
+  }
+
+  updateRegistry() {
+    if (!this.selectedDateStudentStats || !this.technique || !this.physique || !this.combatIq) {
+      console.log("[student-profile.page - addRegistry] some data is missing!");
+      return;
+    }
+
+    this.selectedDateStudentStats.technique = this.technique;
+    this.selectedDateStudentStats.physique = this.physique;
+    this.selectedDateStudentStats.combat_iq = this.combatIq;
+
+    this.studentProgressService.updateStudentProgress(this.selectedDateStudentStats).subscribe(
+      (res) => {
+        console.log("[student-profile.page - updateRegistry] data was updated");
+        this.cancelModifyMode();
+        this.ngOnInit();
+      },
+      (error) => {
+        console.log("[student-profile.page - updateRegistry] An error has ocurred:", error);
+      }
+    )
   }
 
 }

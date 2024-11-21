@@ -66,7 +66,7 @@
         <button [ngClass]="{'active-button': !isOldestDate(), 'deactive-button': isOldestDate()}" (click)="prevDate()" class="arrow-button"> < </button>
         <button [ngClass]="{'active-button': !isToday(), 'deactive-button': isToday()}" (click)="nextDate()" class="arrow-button"> > </button>
       </ion-row>
-      <ion-row *ngIf="progressExists()" class="fill-width">
+      <ion-row *ngIf="progressExists() && !modifyMode" class="fill-width">
         <div class="stats-container">
           <p>Técnica</p>
           <div class="progress-bar">
@@ -89,7 +89,7 @@
           <p>{{ selectedDateStudentStats ? selectedDateStudentStats.combat_iq : 0 }}/10</p>
         </div>
       </ion-row>
-      <ion-row *ngIf="!progressExists()" class="fill-width">
+      <ion-row *ngIf="!progressExists() || modifyMode" class="fill-width">
         <div class="stats-container">
           <p>Técnica</p>
           <div class="progress-bar">
@@ -111,7 +111,9 @@
       </ion-row>
       <ion-row class="ion-justify-content-center">
         <button *ngIf="!progressExists()" id="add-button" (click)="addRegistry()">Añadir registro</button>
-        <button *ngIf="progressExists()" id="edit-button" (click)="modifyRegistry()">Modificar registro</button>
+        <button *ngIf="progressExists() && !modifyMode" id="edit-button" (click)="modifyRegistry()">Modificar registro</button>
+        <button *ngIf="progressExists() && modifyMode" id="edit-button" (click)="updateRegistry()">Confirmar modificación</button>
+        <button *ngIf="progressExists() && modifyMode" id="cancel-button" (click)="cancelModifyMode()">Cancelar</button>
       </ion-row>
     </div>
   </ion-row>
