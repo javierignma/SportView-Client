@@ -24,7 +24,7 @@ export class TabsComponent  implements OnInit {
   }
 
   goToAttendance() {
-    this.attendanceService.goTodayDate();
+    this.attendanceService.getDates();
   }
 
   goToStudents() {

@@ -2,17 +2,96 @@
   <ion-toolbar>
     <ion-row id="header-row">
       <img [src]="sportViewLogo" id="top-logo" alt="SportView Logo">
-      <ion-title class="ion-justify-content-center">
-        Inicio
-      </ion-title>
+      <ion-title class="ion-justify-content-center">Inicio</ion-title>
     </ion-row>
+    
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100%;">
-    <h1 class="ion-justify-content-center">Bienvenido a SportView, {{ name }}</h1>
-  </ion-row>
+ <!-- Filtros de Año y Mes -->
+ <div class="filters-container">
+  <ion-item>
+    <ion-label>Año</ion-label>
+    <ion-select [(ngModel)]="selectedYear" (ionChange)="loadStudentKPI()" placeholder="Seleccionar Año">
+      <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label>Mes</ion-label>
+    <ion-select [(ngModel)]="selectedMonth" (ionChange)="loadStudentKPI()" placeholder="Seleccionar Mes">
+      <ion-select-option value="0">Todos</ion-select-option>
+      <ion-select-option *ngFor="let month of monthNumbers" [value]="month">{{ month }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  
+
+  <ion-item>
+    <ion-label>Estudiante</ion-label>
+    <ion-select [(ngModel)]="selectedStudent" (ionChange)="loadStudentKPI()">
+      <ion-select-option *ngFor="let student of students" [value]="student.id">{{ student.name }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+</div>
+
+<!-- KPI -->
+<div class="kpi-container">
+  <div class="kpi-card">
+    <ion-icon name="barbell-outline" class="kpi-icon"></ion-icon>
+    <div class="kpi-info">
+      <h3>Técnica</h3>
+      <p>{{ kpiData.technique_avg | number:'1.1-1' }}</p>
+    </div>
+  </div>
+  <div class="kpi-card">
+    <ion-icon name="body-outline" class="kpi-icon"></ion-icon>
+    <div class="kpi-info">
+      <h3>Estado Físico</h3>
+      <p>{{ kpiData.physique_avg | number:'1.1-1' }}</p>
+    </div>
+  </div>
+  <div class="kpi-card">
+    <ion-icon name="people-outline" class="kpi-icon"></ion-icon>
+    <div class="kpi-info">
+      <h3>IQ de Combate</h3>
+      <p>{{ kpiData.combat_iq_avg | number:'1.1-1' }}</p>
+    </div>
+  </div>
+  <div class="kpi-card">
+    <ion-icon name="calendar-outline" class="kpi-icon"></ion-icon>
+    <div class="kpi-info">
+      <h3>Asistencia</h3>
+      <p>{{ kpiData.attendance_avg | number:'1.0-0' }}%</p>
+    </div>
+  </div>
+</div>
+
+<!--PODIO-->
+<div class="podium-container">
+  <h2 class="podium-title">Top 3 Estudiantes</h2>
+  <div class="podium">
+    <div class="podium-item second">
+      <h3>{{ topStudents[1]?.name || 'N/A' }}</h3>
+      <p>Promedio: {{ topStudents[1]?.average | number:'1.1-1' }}</p>
+    </div>
+    <div class="podium-item first">
+      <h3>{{ topStudents[0]?.name || 'N/A' }}</h3>
+      <p>Promedio: {{ topStudents[0]?.average | number:'1.1-1' }}</p>
+    </div>
+    <div class="podium-item third">
+      <h3>{{ topStudents[2]?.name || 'N/A' }}</h3>
+      <p>Promedio: {{ topStudents[2]?.average | number:'1.1-1' }}</p>
+    </div>
+  </div>
+  <p>* El podio no considera los filtros </p>
+</div>
+
+
+<!-- Botón para generar PDF -->
+<div class="pdf-button-container">
+  <ion-button expand="block" color="primary" (click)="downloadPDF()">Generar Reporte PDF</ion-button>
+</div>
 
 </ion-content>
 

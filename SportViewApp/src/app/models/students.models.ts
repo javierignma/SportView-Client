@@ -21,6 +21,7 @@ export interface NewStudent {
 }
 
 export interface StudentProgress {
+    date: any;
     id: number;
     student_id: number;
     progress_date: string;
@@ -38,6 +39,7 @@ export interface NewStudentProgress {
 }
 
 export interface StudentProgressAvg {
+    progress_date: string | number | Date;
     technique_avg: number;
     physique_avg: number;
     combat_iq_avg: number;

@@ -55,7 +55,7 @@ export class StudentProfilePage implements OnInit {
         }
       )
 
-      this.studentProgressService.getAvgStudentProgress(this.studentId).subscribe(
+      this.studentProgressService.getAvgStudentProgress(this.studentId,0).subscribe(
         (data) => {
           this.studentStats = data;
           this.totalPointsAvg = data.combat_iq_avg + data.physique_avg + data.technique_avg;

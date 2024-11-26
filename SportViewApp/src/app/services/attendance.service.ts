@@ -23,6 +23,10 @@ export class AttendanceService {
       'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
     });
   }
+  getAvgAttendances(id: number, month: number): Observable<Attendance> {
+    const headers = this.headers;
+    return this.http.get<Attendance>(`${this.apiAttendanceRoute}avg/${id}/${month}`, { headers });
+  }
 
   getCurrentDateIndex() {
     return this.currentDateIndex;
@@ -76,6 +80,7 @@ export class AttendanceService {
         this.currentDateIndex = this.dates.length - 1;
         console.log("[attendance.service - getDates] dates: ", this.dates);
         console.log("[attendance.service - getDates] currentIndex: ", this.currentDateIndex);
+        this.goTodayDate();
       },
       error => {
         const todayDate = new Date().toISOString().split('T')[0];
@@ -86,4 +91,5 @@ export class AttendanceService {
       }
     )
   }
+  
 }

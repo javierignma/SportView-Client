@@ -28,9 +28,9 @@ export class StudentProgressService {
     return this.http.get<StudentProgress>(this.apiStudentsRoute+"student/"+studentId+"/"+date, { headers });
   }
 
-  getAvgStudentProgress(studentId: number): Observable<StudentProgressAvg> {
+  getAvgStudentProgress(studentId: number, month:number): Observable<StudentProgressAvg> {
     const headers = this.headers;
-    return this.http.get<StudentProgressAvg>(this.apiStudentsRoute+"student-avg/"+studentId, { headers });
+    return this.http.get<StudentProgressAvg>(this.apiStudentsRoute+"student-avg/"+studentId+"/"+month, { headers });
   }
 
   addStudentProgress(studentProgress: NewStudentProgress) {
@@ -92,3 +92,5 @@ export class StudentProgressService {
     return this.currentDateIndex == this.dates.length - 1;
   }
 }
+
+export { UserService };

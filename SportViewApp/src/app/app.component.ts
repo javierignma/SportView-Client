@@ -8,6 +8,6 @@ import { AttendanceService } from './services/attendance.service';
 })
 export class AppComponent {
   constructor(private attendanceService: AttendanceService) {
-    this.attendanceService.getDates();
+    //this.attendanceService.getDates();
   }
 }

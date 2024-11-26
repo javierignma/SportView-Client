@@ -4,7 +4,12 @@ ion-toolbar {
 
 ion-content {
   --background: linear-gradient(135deg, #2B2F3A, #3E4757);
+  --padding-bottom: 70px;
 }
+
+ion-title{
+  color: #D9D9D9; 
+ }
 
 #header-row {
   padding: 0.2rem 1rem;
@@ -19,3 +24,172 @@ h1 {
   font-size: 30px;
   width: 60%;
 }
+/* Filtros */
+.filters-container {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se muevan a una nueva línea si no hay espacio */
+  justify-content: center; /* Centra los elementos horizontalmente */
+  align-items: center; /* Centra los elementos verticalmente */
+  padding: 1rem;
+  background-color: #2a3b47;
+  margin: 1rem auto; /* Centra el contenedor horizontalmente */
+  border-radius: 10px;
+  gap: 1rem;
+  max-width: 90%; /* Limita el ancho máximo del contenedor */
+  box-sizing: border-box; /* Incluye padding en el ancho total */
+}
+
+.filters-container select {
+  flex: 1 1 calc(30% - 1rem); /* Hace que los elementos sean flexibles y ocupen hasta un 30% del ancho disponible */
+  min-width: 200px; /* Asegura un tamaño mínimo razonable */
+  max-width: 300px; /* Opcional: evita que sean demasiado anchos */
+}
+
+@media (max-width: 768px) {
+  .filters-container select {
+    flex: 1 1 100%; /* En pantallas más pequeñas, los elementos ocupan el 100% del ancho */
+  }
+}
+
+.filters-container ion-item {
+  flex: 1 1 calc(25% - 1rem); 
+  margin: 0.5rem;
+}
+
+.filters-container ion-button {
+  flex: 1 1 100%;
+  text-align: center;
+}
+
+/* KPI */
+.kpi-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.kpi-card {
+  flex: 1 1 calc(25% - 1rem); /* Ocupan 25% cada uno, ajustándose al tamaño */
+  background-color: #2a3b47;
+  color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.kpi-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.kpi-info h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.kpi-info p {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.podium-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.podium {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 20px;
+}
+.podium-title {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.podium-item {
+  width: 100px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  text-align: center;
+}
+
+.podium-item h3 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.podium-item p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.podium-item.first {
+  height: 150px;
+  background-color: #ffdd57;
+}
+
+.podium-item.second {
+  height: 120px;
+  background-color: #c0c0c0;
+}
+
+.podium-item.third {
+  height: 100px;
+  background-color: #cd7f32;
+}
+
+
+/* Media Queries para Pantallas Pequeñas */
+@media (max-width: 768px) {
+  .filters-container ion-item,
+  .filters-container ion-button {
+    flex: 1 1 100%; /* Los filtros ocupan todo el ancho */
+  }
+
+  .kpi-card {
+    flex: 1 1 calc(50% - 1rem); /* Los KPI ocupan 50% en pantallas pequeñas */
+  }
+
+  .goal-item {
+    flex: 1 1 100%; /* Las barras de progreso ocupan todo el ancho */
+  }
+}
+
+div {
+  width: 100%;
+  max-height: 400px;
+  overflow: hidden; /* Evita que el gráfico se expanda más allá del contenedor */
+  margin-bottom: 20px; /* Añade espacio para la barra de selección */
+}
+
+.chart-container {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  max-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: rgba(42, 43, 58, 0.9); /* Fondo más oscuro para mayor contraste */
+  border-radius: 15px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para efecto de profundidad */
+}
+
+
+canvas {
+  max-width: 100%;
+  max-height: 100%;
+}
+
