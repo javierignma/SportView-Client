@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { StudentService } from 'src/app/services/student.service';
 import { StudentProgressService } from '../services/student-progress.service';
-import { jsPDF } from 'jspdf';
 import { forkJoin } from 'rxjs';
 import { AttendanceService } from '../services/attendance.service';
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +13,6 @@ import { AttendanceService } from '../services/attendance.service';
 })
 export class HomePage implements OnInit {
   sportViewLogo: string = '../../../assets/sportview-logo.png';
-  logo: string = '../../../assets/logo.jpg';
   name: string = ' ';
 
   years: number[] = [];
@@ -171,10 +170,21 @@ export class HomePage implements OnInit {
   
   
   topStudents: { name: string; average: number }[] = [];
+  
   loadTopStudents() {
+    const today = new Date();
+    let currentMonth = today.getMonth(); // Índice del mes actual (0-11)
+    let currentYear = today.getFullYear();
+
+    // Calcular el mes anterior
+    let previousMonth = currentMonth - 1;
+    if (previousMonth < 0) {
+      previousMonth = 11; // Si es enero, el mes anterior es diciembre
+      currentYear -= 1; // Ajustar el año al año anterior
+    }
     this.studentService.getStudents().subscribe((students: any[]) => {
       const requests = students.map(student =>
-        this.studentProgressService.getAvgStudentProgress(student.id,0)
+        this.studentProgressService.getAvgStudentProgress(student.id,previousMonth + 1)
       );
   
       forkJoin(requests).subscribe((results: any[]) => {
@@ -193,7 +203,7 @@ export class HomePage implements OnInit {
           .sort((a, b) => b.average - a.average)
           .slice(0, 3);
   
-        console.log('Top 3 Students:', this.topStudents);
+        console.log('Podio calculado para el mes anterior:', this.topStudents);
       });
     });
   }
@@ -203,76 +213,170 @@ export class HomePage implements OnInit {
   
     // Configuración del logo
     const img = new Image();
-    img.src = this.logo;
+    img.src = this.sportViewLogo;
+  
+    // Imágenes representativas para los KPI
+    const kpiIcons = [
+      '../../../assets/icon/technique.png', // Técnica
+      '../../../assets/icon/fitness.png', // Estado Físico
+      '../../../assets/icon/iq.png', // IQ de Combate
+      '../../../assets/icon/attendance.png', // Asistencia
+    ];
+  
+    // Imágenes de medallas
+    const medalIcons = [
+      '../../../assets/icon/gold.png', // Oro
+      '../../../assets/icon/silver.png', // Plata
+      '../../../assets/icon/bronze.png', // Bronce
+    ];
+  
     img.onload = () => {
-      // Centrar el logo en la parte superior
       const pageWidth = pdf.internal.pageSize.width;
-      pdf.addImage(img, 'JPG', (pageWidth - 30) / 2, 10, 30, 30); 
   
-      // Título del reporte
-      pdf.setFontSize(18);
-      pdf.text('Reporte de Desempeño', pageWidth / 2, 50, { align: 'center' });
-  
-      // Filtros aplicados
+      // Encabezado con logo y fecha
+      const headerY = 10;
+      pdf.setFillColor(0, 123, 255); // Azul claro
+      pdf.rect(0, headerY, pageWidth, 30, 'F');
+      pdf.setFontSize(16);
+      pdf.setTextColor(255, 255, 255); // Blanco
+      pdf.text('Reporte de Desempeño', pageWidth / 2, headerY + 12, { align: 'center' });
+      pdf.addImage(img, 'PNG', 7, headerY + 5, 20, 25); 
+      //FECHA
+      pdf.setFontSize(10);
+      pdf.text(`${new Date().toLocaleDateString()}`, pageWidth / 2, headerY + 20, { align: 'center' });
+      
+      // Filtros Aplicados (primero)
+      const filtersStartY = headerY + 40;
+      pdf.setFillColor(220, 220, 220); // Gris claro
+      pdf.setTextColor(0, 0, 0); // Negro
+      pdf.rect(10, filtersStartY, pageWidth - 20, 10, 'F');
       pdf.setFontSize(14);
-      pdf.text('Filtros Aplicados:', 20, 60);
+      pdf.text('Filtros Aplicados:', 15, filtersStartY + 7);
+
+      // Filtros Aplicados como tarjetas
+        const cardWidth = (pageWidth - 40) / 3; 
+        const cardHeight = 20; 
+        const cardSpacing = 10;
+        const cardStartY = filtersStartY + 15; 
+        
+
+        // Tarjeta Año
+        pdf.setFillColor(200, 230, 255); // Azul claro
+        pdf.roundedRect(10, cardStartY, cardWidth, cardHeight, 3, 3, 'F'); // Tarjeta con bordes redondeados
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFontSize(12);
+        pdf.text('Año:', 15, cardStartY + 8);
+        pdf.text(`${this.selectedYear || 'Todos'}`, 15, cardStartY + 15);
+
+        // Tarjeta Mes
+        pdf.setFillColor(200, 230, 255); // Azul claro
+        pdf.roundedRect(10 + cardWidth + cardSpacing, cardStartY, cardWidth, cardHeight, 3, 3, 'F');
+        pdf.text('Mes:', 15 + cardWidth + cardSpacing, cardStartY + 8);
+        pdf.text(`${this.selectedMonth || 'Todos'}`, 15 + cardWidth + cardSpacing, cardStartY + 15);
+
+        // Tarjeta Estudiante
+        pdf.setFillColor(200, 230, 255); // Azul claro
+        pdf.roundedRect(10 + 2 * (cardWidth + cardSpacing), cardStartY, cardWidth, cardHeight, 3, 3, 'F');
+        pdf.text('Estudiante:', 15 + 2 * (cardWidth + cardSpacing), cardStartY + 8);
+        pdf.text(
+          `${
+            this.selectedStudent === 0
+              ? 'Todos'
+              : this.students.find((s) => s.id === this.selectedStudent)?.name || 'Desconocido'
+          }`,
+          15 + 2 * (cardWidth + cardSpacing),
+          cardStartY + 15
+        );
+        const filterRowY = cardStartY + cardHeight ; 
+
+      // Promedios Generales de KPIs (después de los filtros)
+      const kpiStartY = filterRowY + 5;
+      pdf.setFillColor(220, 220, 220); // Gris claro
+      pdf.rect(10, kpiStartY, pageWidth - 20, 10, 'F');
+      pdf.setFontSize(14);
+      pdf.setTextColor(0, 0, 0); // Negro
+      pdf.text('Promedios Generales de KPIs:', 15, kpiStartY + 7);
+
+      const kpiValues = [
+        ['Técnica', `${this.kpiData.technique_avg?.toFixed(2) || 'N/A'}`],
+        ['Estado Físico', `${this.kpiData.physique_avg?.toFixed(2) || 'N/A'}`],
+        ['IQ de Combate', `${this.kpiData.combat_iq_avg?.toFixed(2) || 'N/A'}`],
+        ['Asistencia', `${this.kpiData.attendance_avg?.toFixed(2) || 'N/A'}%`],
+      ];
+
+      const columnWidth = (pageWidth - 30) / 2; // Espacio para cada columna
+      const rowHeight = 20; // Espacio entre las filas
+      let kpiRowY = kpiStartY + 15;
+
+      kpiValues.forEach((kpi, index) => {
+        const row = Math.floor(index / 2); // Fila actual (0 o 1)
+        const col = index % 2; // Columna actual (0 o 1)
+        const x = 25 + col * columnWidth; // Posición X basada en la columna
+        const y = kpiRowY + row * rowHeight; // Posición Y basada en la fila
+        
+        const icon = new Image();
+        icon.src = kpiIcons[index]; // Imagen representativa para cada KPI
+        pdf.addImage(icon, 'PNG', x + 5, y + 5, 8, 8); // Tamaño ajustado del ícono
+        pdf.setFontSize(12);
+        pdf.text(kpi[0], x + 20, y + 7); // Título del KPI
+        pdf.setFontSize(13);
+        pdf.text(kpi[1], x + 20, y + 17); // Valor del KPI
+
+      });
+      kpiRowY += 2 * 20 + 10;
+
+      // Podio de Estudiantes (con filas más grandes)
+      const podiumStartY = kpiRowY;
+      pdf.setFillColor(220, 220, 220); // Gris claro
+      pdf.rect(10, podiumStartY - 5, pageWidth - 20, 10, 'F');
+      pdf.setFontSize(14);
+      pdf.text('Podio de Estudiantes:', 15, podiumStartY + 3);
+  
+      const podiumValues = this.topStudents.map((student, index) => [
+        `${index + 1}`,
+        student.name,
+        `${student.average.toFixed(2) || 'N/A'}`,
+      ]);
+  
+      const podiumStartTableY = podiumStartY + 10;
       pdf.setFontSize(12);
-      pdf.text(`Año: ${this.selectedYear || 'Todos'}`, 20, 70);
-      pdf.text(`Mes: ${this.selectedMonth || 'Todos'}`, 20, 80);
+      pdf.text('Posición', 15, podiumStartTableY);
+      pdf.text('Nombre', pageWidth / 2 - 20, podiumStartTableY);
+      pdf.text('Promedio', pageWidth - 50, podiumStartTableY);
+      
+      let lastRowY = podiumStartTableY;
+      const rowHeightpodium = 14; // Incremento de espacio entre filas
+      podiumValues.forEach((row, index) => {
+        const yPosition = podiumStartTableY + rowHeightpodium * (index + 1);
+        if (index % 2 === 0) {
+          pdf.setFillColor(245, 245, 245); // Gris más claro
+          pdf.rect(10, yPosition - 8, pageWidth - 20, rowHeightpodium - 2, 'F');
+        }
+  
+        // Medalla
+        const medal = new Image();
+        medal.src = medalIcons[index] || medalIcons[2]; 
+        pdf.addImage(medal, 'PNG', 10, yPosition - 5, 8, 8);
+
+        pdf.text(row[1], pageWidth / 2 - 20, yPosition);
+        pdf.text(row[2], pageWidth - 50, yPosition);
+        lastRowY = yPosition;
+      });
+      
+      // Agregar una nota al final del podio
+      const noteY = lastRowY + 10; // Espacio adicional debajo del podio
+      pdf.setFontSize(10);
+      pdf.setTextColor(0, 0, 0); // Color negro para el texto
       pdf.text(
-        `Estudiante: ${
-          this.selectedStudent === 0
-            ? 'Todos'
-            : this.students.find((s) => s.id === this.selectedStudent)?.name || 'Desconocido'
-        }`,
-        20,
-        90
+        'Nota: El podio refleja el desempeño promedio de los estudiantes durante el mes anterior.',
+        pageWidth / 2,
+        noteY,
+        { align: 'center' }
       );
-  
-      // Cuadros de KPI
-      const boxWidth = 80;
-      const boxHeight = 30;
-      const marginX = (pageWidth - (boxWidth * 2 + 10)) / 4; // Centrado horizontal
-      const startY = 100;
-  
-      // Técnica y Estado Físico (Primera Fila)
-      pdf.rect(marginX, startY, boxWidth, boxHeight);
-      pdf.setFontSize(12);
-      pdf.text('Técnica', marginX + 5, startY + 10);
-      pdf.setFontSize(14);
-      pdf.text(`${this.kpiData.technique_avg?.toFixed(2) || 'N/A'}`, marginX + 5, startY + 20);
-  
-      pdf.rect(marginX + boxWidth + 10, startY, boxWidth, boxHeight);
-      pdf.setFontSize(12);
-      pdf.text('Estado Físico', marginX + boxWidth + 15, startY + 10);
-      pdf.setFontSize(14);
-      pdf.text(`${this.kpiData.physique_avg?.toFixed(2) || 'N/A'}`, marginX + boxWidth + 15, startY + 20);
-  
-      // IQ de Combate y Asistencia (Segunda Fila)
-      pdf.rect(marginX, startY + boxHeight + 10, boxWidth, boxHeight);
-      pdf.setFontSize(12);
-      pdf.text('IQ de Combate', marginX + 5, startY + boxHeight + 20);
-      pdf.setFontSize(14);
-      pdf.text(`${this.kpiData.combat_iq_avg?.toFixed(2) || 'N/A'}`, marginX + 5, startY + boxHeight + 30);
-  
-      pdf.rect(marginX + boxWidth + 10, startY + boxHeight + 10, boxWidth, boxHeight);
-      pdf.setFontSize(12);
-      pdf.text('Asistencia', marginX + boxWidth + 15, startY + boxHeight + 20);
-      pdf.setFontSize(14);
-      pdf.text(`${this.kpiData.attendance_avg?.toFixed(2) || 'N/A'}%`, marginX + boxWidth + 15, startY + boxHeight + 30);
-  
-      // Gráfico si está disponible
-      const chartCanvas = document.getElementById('areaChart') as HTMLCanvasElement;
-      if (chartCanvas) {
-        const chartImage = chartCanvas.toDataURL('image/png');
-        pdf.addImage(chartImage, 'PNG', 20, startY + (boxHeight + 20) * 2, 170, 90); // Tamaño ajustado
-      }
   
       // Guardar el PDF
       pdf.save('reporte-desempeno.pdf');
     };
   }
-
-  
-}  
+}
   

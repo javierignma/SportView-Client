@@ -88,6 +88,7 @@ export class AttendanceService {
         this.currentDateIndex = 0;
 
         console.log("[attendance.page - ngOnInit] An error has ocurred: ", error)
+        this.goTodayDate();
       }
     )
   }
